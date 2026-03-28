@@ -1,50 +1,38 @@
-\# Project 1 - JWKS Server (CSCE 3550)
+# Project 1 / Project 2 - JWKS Server (CSCE 3550)
 
+## Name
+Awad Aljaidi
 
+## Overview
+This project implements a JWKS server using FastAPI and SQLite.
 
-\## Overview
+The server:
+- generates RSA key pairs with unique `kid` values and expiration times
+- stores private keys in a SQLite database
+- serves a JWKS at `/.well-known/jwks.json` containing only unexpired public keys
+- issues JWTs at `/auth` using a valid key by default
+- issues a JWT signed with an expired key when `?expired=true` is provided
 
-FastAPI JWKS server that:
+For Project 2, the same project was extended and tested against the provided blackbox testing client.
 
-\- Generates RSA key pairs with `kid` and expiry (`exp`)
+## Features
+- FastAPI REST API
+- SQLite-backed key storage
+- RSA key generation and serialization
+- JWKS endpoint for valid public keys
+- JWT generation endpoint
+- support for expired JWT generation
+- parameterized SQL queries
+- linted code
+- automated tests with coverage above 80%
 
-\- Serves a JWKS at `/.well-known/jwks.json` containing only unexpired public keys
+## Requirements
+- Python 3.13+
+- Install dependencies with:
 
-\- Issues JWTs at `/auth` (POST)
+```bash
+pip install -r requirements.txt
 
-\- If `?expired=true` is provided, returns a JWT signed with an expired key
+## Note
 
-
-
-\## Requirements
-
-\- Python 3.13+
-
-\- Install dependencies:
-
-&nbsp; pip install -r requirements.txt
-
-
-
-\## Run the server
-
-python -m uvicorn app:app --host 127.0.0.1 --port 8080
-
-
-
-\## Endpoints
-
-\- `GET /.well-known/jwks.json` -> JWKS (unexpired keys only)
-
-\- `POST /auth` -> valid JWT
-
-\- `POST /auth?expired=true` -> expired JWT
-
-
-
-\## Run tests + coverage
-
-pytest --cov=. --cov-report=term-missing
-
-
-
+I tested this project with the provided gradebot. The required local checks passed successfully, including `/auth`, JWKS, database existence, and parameterized SQL. The only remaining item was the `Quality` check, which returned `503 Service Unavailable` during testing.
